@@ -1,0 +1,5 @@
+# Building folder
+**/build/**
+
+# File for clangd
+compile_commands.json
