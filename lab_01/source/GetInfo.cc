@@ -7,7 +7,7 @@ std::string GetInfo::serial()
 
     FILE* pipe = popen("system_profiler SPHardwareDataType | awk '/Serial/ {print $4}'", "r");
     if (!pipe) {
-        return "popen failed!";
+        return "";
     }
 
     while (!feof(pipe)) {

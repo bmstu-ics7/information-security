@@ -6,7 +6,7 @@
 class GetInfo
 {
 public:
-    std::string serial();
+    static std::string serial();
 };
 
 #endif // __GETINFO_H
