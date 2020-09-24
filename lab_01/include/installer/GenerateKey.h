@@ -14,7 +14,6 @@ public:
 private:
     static void makeDir();
     static int writeKey();
-    static std::string pathFile();
     static int error(int err);
 
     static const int SUCCESS;

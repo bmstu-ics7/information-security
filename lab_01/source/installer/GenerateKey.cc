@@ -22,7 +22,7 @@ int GenerateKey::writeKey()
         return COMMAND_ERR;
     }
 
-    std::string path = pathFile();
+    std::string path = GetInfo::pathToFile();
     std::ofstream config;
 
     config.open(path, std::ios::out | std::ios::binary);
@@ -34,13 +34,6 @@ int GenerateKey::writeKey()
 
     config.close();
     return SUCCESS;
-}
-
-std::string GenerateKey::pathFile()
-{
-    char* path = getenv("HOME");
-    strcat(path, "/.config/security_application/secret_key");
-    return std::string(path);
 }
 
 int GenerateKey::error(int err)

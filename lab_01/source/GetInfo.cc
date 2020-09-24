@@ -18,3 +18,10 @@ std::string GetInfo::serial()
     pclose(pipe);
     return result;
 }
+
+std::string GetInfo::pathToFile()
+{
+    char* path = getenv("HOME");
+    strcat(path, "/.config/security_application/secret_key");
+    return std::string(path);
+}

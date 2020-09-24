@@ -9,12 +9,14 @@ set(proj_app application)
 project(${proj_app})
 
 set(headers_app
+    include/application/Checker.h
     include/application/Program.h
     include/GetInfo.h
 )
 
 set(sources_app
     source/application/main.cc
+    source/application/Checker.cc
     source/application/Program.cc
     source/GetInfo.cc
 )
