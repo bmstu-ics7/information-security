@@ -3,3 +3,9 @@
 
 # File for clangd
 compile_commands.json
+
+# MacOS Files
+.DS_Store
+
+# C++ analyse folder
+.clangd/
