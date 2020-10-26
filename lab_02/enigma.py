@@ -4,11 +4,11 @@ import random
 
 
 class Enigma:
-    def __init__(self, random_seed=None, start_roter=[0, 0, 0]):
+    def __init__(self, random_seed=None):
         if random_seed is not None:
             random.seed(random_seed)
         self.__init_rotors__()
-        self.__init_positions__(start_roter)
+        self.__init_positions__()
         self.__init_reflector__()
 
     def __init_rotors__(self):
@@ -21,13 +21,12 @@ class Enigma:
         random.shuffle(self._rotors[1])
         random.shuffle(self._rotors[2])
 
-    def __init_positions__(self, start_roter):
-        if len(start_roter) != 3:
-            raise Exception("Need 3 positions for roters")
-        for i in range(3):
-            start_roter[i] -= 1
-            if not(0 <= start_roter[i] <= 255):
-                raise Exception("Position for roter must be from 1 to 256")
+    def __init_positions__(self):
+        start_roter = [
+            random.randint(0, 255),
+            random.randint(0, 255),
+            random.randint(0, 255),
+        ]
         self._pos = start_roter.copy()
         self._start_pos = start_roter.copy()
 
@@ -104,11 +103,7 @@ class Enigma:
 
 
 if __name__ == "__main__":
-    enigma = Enigma(start_roter=[
-        random.randint(0, 255),
-        random.randint(0, 255),
-        random.randint(0, 255)
-    ])
+    enigma = Enigma()
     message = "Hello, world!"
     print("Message:", message)
     message = enigma.encode(message)
