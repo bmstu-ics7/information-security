@@ -9,3 +9,7 @@ compile_commands.json
 
 # C++ analyse folder
 .clangd/
+
+# Python files
+**/__pycache__/**
+**/env/**
