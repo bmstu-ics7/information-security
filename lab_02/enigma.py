@@ -38,9 +38,6 @@ class Enigma:
             self._reflector[pairs[i]] = pairs[i + 1]
             self._reflector[pairs[i + 1]] = pairs[i]
 
-    def change_rotors_pos(self, rotors=[0, 0, 0]):
-        self.__init_rotors__(rotors)
-
     def reset_rotors_to_start(self):
         self._pos = self._start_pos.copy()
 
