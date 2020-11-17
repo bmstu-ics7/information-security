@@ -1,7 +1,7 @@
 from aes.encoding import encode, decode
 
 
-def encode_message(message: str, password: str, decoding: bool) -> str:
+def encode_message(message: str, password: str, decoding: bool):
     print("Message:", message)
     bytes_message = [ord(c) for c in message]
     count = len(bytes_message) // 16
