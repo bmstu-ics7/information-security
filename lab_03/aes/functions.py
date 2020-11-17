@@ -1,30 +1,30 @@
-from variables import sbox, inv_sbox, rcon, nb, nk, nr
-import array
-import GF
+from . import variables as var
+from . import array
+from . import GF
 
 
 def generate_keys(password):
     key = [ord(symbol) for symbol in password]
 
-    if len(key) < 4 * nk:
-        for i in range(4 * nk - len(key)):
+    if len(key) < 4 * var.nk:
+        for i in range(4 * var.nk - len(key)):
             key.append(0x01)
 
     result = [[] for _ in range(4)]
     for i in range(4):
-        for j in range(nk):
+        for j in range(var.nk):
             result[i].append(key[i + 4 * j])
 
-    for j in range(nk, nb * (nr + 1)):
-        if j % nk == 0:
+    for j in range(var.nk, var.nb * (var.nr + 1)):
+        if j % var.nk == 0:
             tmp = [result[i][j - 1] for i in range(1, 4)]
             tmp.append(result[0][j - 1])
 
             for i in range(len(tmp)):
-                tmp[i] = sbox[tmp[i]]
+                tmp[i] = var.sbox[tmp[i]]
 
             for i in range(4):
-                s = result[i][j - 4] ^ tmp[i] ^ rcon[i][j // nk - 1]
+                s = result[i][j - 4] ^ tmp[i] ^ var.rcon[i][j // var.nk - 1]
                 result[i].append(s)
         else:
             for i in range(4):
@@ -37,9 +37,9 @@ def generate_keys(password):
 def sub_bytes(state, decoding=False):
     box = []
     if not decoding:
-        box = sbox
+        box = var.sbox
     else:
-        box = inv_sbox
+        box = var.inv_sbox
 
     for i in range(len(state)):
         for j in range(len(state[i])):
@@ -49,13 +49,13 @@ def sub_bytes(state, decoding=False):
 
 
 def shift_rows(state, decoding=False):
-    for i in range(1, nb):
+    for i in range(1, var.nb):
         state[i] = array.shift(state[i], i, decoding)
     return state
 
 
 def mix_columns(state, decoding=False):
-    for i in range(nb):
+    for i in range(var.nb):
         if not decoding:
             s0 = GF.mul_by_02(state[0][i]) ^ GF.mul_by_03(state[1][i]) ^ \
                 state[2][i] ^ state[3][i]
@@ -84,7 +84,7 @@ def mix_columns(state, decoding=False):
 
 
 def xor_lap_key(state, keys, lap):
-    for j in range(nk):
+    for j in range(var.nk):
         for i in range(4):
-            state[i][j] ^= keys[i][nb * lap + j]
+            state[i][j] ^= keys[i][var.nb * lap + j]
     return state
