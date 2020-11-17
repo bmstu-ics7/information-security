@@ -20,11 +20,11 @@ def generate_keys(password):
             tmp = [result[i][j - 1] for i in range(1, 4)]
             tmp.append(result[0][j - 1])
 
-            for j in range(len(tmp)):
-                tmp[j] = sbox[tmp[j]]
+            for i in range(len(tmp)):
+                tmp[i] = sbox[tmp[i]]
 
             for i in range(4):
-                s = result[i][j - 4] ^ tmp[i] ^ rcon[i][j / nk - 1]
+                s = result[i][j - 4] ^ tmp[i] ^ rcon[i][j // nk - 1]
                 result[i].append(s)
         else:
             for i in range(4):
