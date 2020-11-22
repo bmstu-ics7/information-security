@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import number
-from random import randint
+import random
 
 
 class RSA:
-    def __init__(self, p=None, q=None):
+    def __init__(self, p=None, q=None, seed=None):
+        if seed:
+            random.seed(seed)
         self._p = p
         if not p or not number.is_simple(p):
             self._p = number.get_random_simple(100, 255)
@@ -21,7 +23,7 @@ class RSA:
 
     def _get_e(self):
         while True:
-            n = randint(2, 255)
+            n = random.randint(2, 255)
             if number.gcd(n, self._phi) == 1:
                 return n
 
@@ -55,4 +57,3 @@ if __name__ == "__main__":
     print("encrypt:", message)
     message = rsa.decrypt(message)
     print("decrypt:", message)
-
