@@ -38,10 +38,10 @@ class RSA:
         return symbol ** key % self._n
 
     def encrypt(self, string):
-        return "".join([chr(self.crypt(ord(sym), self._d)) for sym in string])
+        return "".join([chr(self.crypt(ord(sym), self._e)) for sym in string])
 
     def decrypt(self, string):
-        return "".join([chr(self.crypt(ord(sym), self._e)) for sym in string])
+        return "".join([chr(self.crypt(ord(sym), self._d)) for sym in string])
 
     @property
     def p(self):
