@@ -35,7 +35,7 @@ class RSA:
             n += self._phi
 
     def crypt(self, symbol, key):
-        return symbol ** key % self._n
+        return pow(symbol, key, self._n)
 
     def encrypt(self, string):
         return "".join([chr(self.crypt(ord(sym), self._e)) for sym in string])
