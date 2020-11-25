@@ -43,14 +43,34 @@ class RSA:
     def decrypt(self, string):
         return "".join([chr(self.crypt(ord(sym), self._e)) for sym in string])
 
+    @property
+    def p(self):
+        return self._p
+
+    @property
+    def q(self):
+        return self._q
+
+    @property
+    def n(self):
+        return self._n
+
+    @property
+    def e(self):
+        return self._e
+
+    @property
+    def d(self):
+        return self._d
+
 
 if __name__ == "__main__":
     rsa = RSA()
-    print("P:", rsa._p, sep="\t")
-    print("Q:", rsa._q, sep="\t")
-    print("N:", rsa._n, sep="\t")
-    print("E:", rsa._e, sep="\t")
-    print("D:", rsa._d, sep="\t")
+    print("P:", rsa.p, sep="\t")
+    print("Q:", rsa.q, sep="\t")
+    print("N:", rsa.n, sep="\t")
+    print("E:", rsa.e, sep="\t")
+    print("D:", rsa.d, sep="\t")
     message = "Hello, rsa!"
     print("message:", message)
     message = rsa.encrypt(message)

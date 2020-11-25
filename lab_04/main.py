@@ -52,11 +52,11 @@ def main():
     parser = create_parser()
     args = parser.parse_args(sys.argv[1:])
     rsa = RSA(p=args.p, q=args.q, seed=args.seed)
-    print("P:", rsa._p)
-    print("Q:", rsa._q)
-    print("N:", rsa._n)
-    print("E:", rsa._e)
-    print("D:", rsa._d)
+    print("P:", rsa.p)
+    print("Q:", rsa.q)
+    print("N:", rsa.n)
+    print("E:", rsa.e)
+    print("D:", rsa.d)
     if args.message is not None:
         message.encode_message(args.message, rsa, args.decode)
     elif args.file is not None:
