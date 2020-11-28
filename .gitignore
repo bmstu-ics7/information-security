@@ -13,3 +13,7 @@ compile_commands.json
 # Python files
 **/__pycache__/**
 **/env/**
+
+## C sharp build files
+**/obj/**
+**/bin/**
