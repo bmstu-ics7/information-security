@@ -11,6 +11,10 @@ namespace DigitalSignature
             177, 111, 78,  43,  173, 113, 124, 194,
             4,   89,  220, 195, 44,  62,  76,  220,
             10,  120, 99,  77,  78,  254, 55,  27,
+            10,  193, 63,  92,  174, 199, 177, 101,
+            183, 122, 250, 153, 252, 10,  210, 218,
+            49,  113, 210, 1,   196, 26,  26,  151,
+            241, 247, 73,  255, 160, 225, 114, 106,
         };
 
         static public void Check(string fileName, string keyFile)
@@ -22,7 +26,7 @@ namespace DigitalSignature
             rsa.FromXmlString(rsaParams);
 
             RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
-            rsaDeformatter.SetHashAlgorithm("SHA256");
+            rsaDeformatter.SetHashAlgorithm("SHA512");
 
             if (rsaDeformatter.VerifySignature(secret, bytes))
             {
@@ -38,7 +42,7 @@ namespace DigitalSignature
         {
             RSA rsa = RSA.Create();
             RSAPKCS1SignatureFormatter rsaFormatter = new RSAPKCS1SignatureFormatter(rsa);
-            rsaFormatter.SetHashAlgorithm("SHA256");
+            rsaFormatter.SetHashAlgorithm("SHA512");
 
             byte[] signedBytes = rsaFormatter.CreateSignature(secret);
             File.WriteAllBytes(outFile, signedBytes);
