@@ -6,25 +6,19 @@ namespace DigitalSignature
 {
     public class Signature
     {
-        static private byte[] secret = {
-            59,  4,   248, 102, 77,
-            97,  142, 201, 210, 12,
-            224, 93,  25,  41,  100,
-            197, 213, 134, 130, 135,
-        };
-
-        static public void Check(string fileName, string keyFile)
+        static public void Check(string fileName, string signFile, string keyFile)
         {
-            byte[] bytes = File.ReadAllBytes(fileName);
-
             string rsaParams = File.ReadAllText(keyFile);
             RSA rsa = RSA.Create();
             rsa.FromXmlString(rsaParams);
 
             RSAPKCS1SignatureDeformatter rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
-            rsaDeformatter.SetHashAlgorithm("SHA1");
+            rsaDeformatter.SetHashAlgorithm("SHA512");
 
-            if (rsaDeformatter.VerifySignature(secret, bytes))
+            byte[] hash = GenerateHash(fileName);
+            byte[] sign = File.ReadAllBytes(signFile);
+
+            if (rsaDeformatter.VerifySignature(hash, sign))
             {
                 Console.WriteLine("The signature is valid.");
             }
@@ -34,17 +28,25 @@ namespace DigitalSignature
             }
         }
 
-        static public void Create(string outFile, string keyFile)
+        static public void Create(string fileName, string signFile, string keyFile)
         {
             RSA rsa = RSA.Create();
             RSAPKCS1SignatureFormatter rsaFormatter = new RSAPKCS1SignatureFormatter(rsa);
-            rsaFormatter.SetHashAlgorithm("SHA1");
+            rsaFormatter.SetHashAlgorithm("SHA512");
 
-            byte[] signedBytes = rsaFormatter.CreateSignature(secret);
-            File.WriteAllBytes(outFile, signedBytes);
+            byte[] hash = GenerateHash(fileName);
+            byte[] signedBytes = rsaFormatter.CreateSignature(hash);
+            File.WriteAllBytes(signFile, signedBytes);
 
-            string RSAKeyInfo = rsa.ToXmlString(false); 
+            string RSAKeyInfo = rsa.ToXmlString(false);
             File.WriteAllText(keyFile, RSAKeyInfo);
+        }
+
+        static private byte[] GenerateHash(string fileName)
+        {
+            SHA512 sha512 = SHA512.Create();
+            byte[] bytes = File.ReadAllBytes(fileName);
+            return sha512.ComputeHash(bytes);
         }
     }
 }
