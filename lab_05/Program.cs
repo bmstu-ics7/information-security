@@ -13,6 +13,11 @@ namespace DigitalSignature
 
         static void RunProgram(Options opts)
         {
+            if (opts.Signature == null)
+            {
+                opts.Signature = opts.File + ".sig";
+            }
+
             try
             {
                 if (opts.Check)
