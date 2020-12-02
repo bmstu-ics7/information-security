@@ -17,11 +17,11 @@ namespace DigitalSignature
             {
                 if (opts.Check)
                 {
-                    Signature.Check(opts.File, opts.KeyFile);
+                    Signature.Check(opts.File, opts.Signature, opts.KeyFile);
                 }
                 else
                 {
-                    Signature.Create(opts.File, opts.KeyFile);
+                    Signature.Create(opts.File, opts.Signature, opts.KeyFile);
                 }
             }
             catch(Exception e)
