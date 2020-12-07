@@ -13,23 +13,23 @@ namespace CompressHuffman
             public Node Left = null;
             public Node Right = null;
 
-            public void GetCode(Dictionary<byte, List<bool>> table, List<bool> code)
+            public void GetCode(Dictionary<byte, List<byte>> table, List<byte> code)
             {
                 if (Symbol != null)
                 {
-                    table[Symbol.Value] = new List<bool>(code);
+                    table[Symbol.Value] = new List<byte>(code);
                 }
 
                 if (Left != null)
                 {
-                    code.Add(false);
+                    code.Add(0);
                     Left.GetCode(table, code);
                     code.Remove(code[code.Count - 1]);
                 }
 
                 if (Right != null)
                 {
-                    code.Add(true);
+                    code.Add(1);
                     Right.GetCode(table, code);
                     code.Remove(code[code.Count - 1]);
                 }
@@ -43,10 +43,10 @@ namespace CompressHuffman
             _head = head;
         }
 
-        public Dictionary<byte, List<bool>> GetTable()
+        public Dictionary<byte, List<byte>> GetTable()
         {
-            var code = new List<bool>();
-            var table = new Dictionary<byte, List<bool>>();
+            var code = new List<byte>();
+            var table = new Dictionary<byte, List<byte>>();
             _head.GetCode(table, code);
             return table;
         }

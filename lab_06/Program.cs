@@ -21,6 +21,7 @@ namespace CompressHuffman
                 }
                 else
                 {
+                    new HuffmanDecompress(opts.File, opts.Table).Execute();
                 }
             }
             catch(Exception e)

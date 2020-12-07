@@ -1,6 +1,6 @@
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
 
 namespace CompressHuffman
 {
@@ -58,10 +58,10 @@ namespace CompressHuffman
             Tree tree = new Tree(nodes[0]);
             var table = tree.GetTable();
 
-            List<bool> zip = new List<bool>();
+            List<byte> zip = new List<byte>();
             foreach (byte sb in bytes)
             {
-                foreach (bool b in table[sb])
+                foreach (byte b in table[sb])
                 {
                     zip.Add(b);
                 }
@@ -76,7 +76,7 @@ namespace CompressHuffman
                     b <<= 1;
 
                     if (i + j < zip.Count)
-                        b += zip[i + j] ? (byte)1 : (byte)0;
+                        b += zip[i + j];
                     else
                         b += (byte)0;
                 }
@@ -85,9 +85,10 @@ namespace CompressHuffman
 
             File.WriteAllBytes(_fileName + ".zip", zipWrite);
 
-            var jsonTable = table.Select(d =>
+            File.WriteAllText(_tableName, JsonConvert.SerializeObject(table));
+            /*var jsonTable = table.Select(d =>
                 string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value.Select(el => el ? 1 : 0))));
-            File.WriteAllText(_tableName, "{" + string.Join(",", jsonTable) + "}");
+            File.WriteAllText(_tableName, "{" + string.Join(",", jsonTable) + "}");*/
         }
     }
 }
