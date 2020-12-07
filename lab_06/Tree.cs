@@ -7,47 +7,50 @@ namespace CompressHuffman
     {
         public class Node
         {
-            public byte? Symbol = null;
-            public uint Count;
+            public uint? Count;
 
-            public Node Left = null;
-            public Node Right = null;
+            public byte? S = null;
+
+            public Node L = null;
+            public Node R = null;
 
             public void GetCode(Dictionary<byte, List<byte>> table, List<byte> code)
             {
-                if (Symbol != null)
+                Count = null;
+
+                if (S != null)
                 {
-                    table[Symbol.Value] = new List<byte>(code);
+                    table[S.Value] = new List<byte>(code);
                 }
 
-                if (Left != null)
+                if (L != null)
                 {
                     code.Add(0);
-                    Left.GetCode(table, code);
+                    L.GetCode(table, code);
                     code.Remove(code[code.Count - 1]);
                 }
 
-                if (Right != null)
+                if (R != null)
                 {
                     code.Add(1);
-                    Right.GetCode(table, code);
+                    R.GetCode(table, code);
                     code.Remove(code[code.Count - 1]);
                 }
             }
         }
 
-        private Node _head;
+        public Node H;
 
         public Tree(Node head)
         {
-            _head = head;
+            H = head;
         }
 
         public Dictionary<byte, List<byte>> GetTable()
         {
             var code = new List<byte>();
             var table = new Dictionary<byte, List<byte>>();
-            _head.GetCode(table, code);
+            H.GetCode(table, code);
             return table;
         }
     }

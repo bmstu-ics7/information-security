@@ -18,7 +18,7 @@ namespace CompressHuffman
             _countBytes = new Dictionary<byte, uint>(256);
         }
 
-        public void Execute()
+        public void Execute(string outFile)
         {
             byte[] bytes = File.ReadAllBytes(_fileName);
             foreach (byte b in bytes)
@@ -34,13 +34,13 @@ namespace CompressHuffman
             {
                 Tree.Node node = new Tree.Node();
                 node.Count = symbol.Value;
-                node.Symbol = symbol.Key;
+                node.S = symbol.Key;
                 nodes.Add(node);
             }
 
             while (nodes.Count > 1)
             {
-                nodes.Sort((f, s) => f.Count.CompareTo(s.Count));
+                nodes.Sort((f, s) => f.Count.Value.CompareTo(s.Count.Value));
 
                 Tree.Node left = nodes[0];
                 Tree.Node right = nodes[1];
@@ -49,8 +49,8 @@ namespace CompressHuffman
 
                 Tree.Node node = new Tree.Node();
                 node.Count = left.Count + right.Count;
-                node.Left = left;
-                node.Right = right;
+                node.L = left;
+                node.R = right;
 
                 nodes.Add(node);
             }
@@ -83,9 +83,15 @@ namespace CompressHuffman
                 zipWrite[i / 8] = b;
             }
 
-            File.WriteAllBytes(_fileName + ".zip", zipWrite);
+            File.WriteAllBytes(outFile, zipWrite);
 
-            File.WriteAllText(_tableName, JsonConvert.SerializeObject(table));
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+
+            using (StreamWriter sw = new StreamWriter(_tableName))
+            {
+                serializer.Serialize(sw, tree);
+            }
         }
     }
 }

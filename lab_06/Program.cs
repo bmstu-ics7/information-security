@@ -17,11 +17,11 @@ namespace CompressHuffman
             {
                 if (!opts.Decompress)
                 {
-                    new HuffmanCompress(opts.File, opts.Table).Execute();
+                    new HuffmanCompress(opts.File, opts.Table).Execute(opts.Out);
                 }
                 else
                 {
-                    new HuffmanDecompress(opts.File, opts.Table).Execute();
+                    new HuffmanDecompress(opts.File, opts.Table).Execute(opts.Out);
                 }
             }
             catch(Exception e)
