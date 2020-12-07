@@ -86,9 +86,6 @@ namespace CompressHuffman
             File.WriteAllBytes(_fileName + ".zip", zipWrite);
 
             File.WriteAllText(_tableName, JsonConvert.SerializeObject(table));
-            /*var jsonTable = table.Select(d =>
-                string.Format("\"{0}\": [{1}]", d.Key, string.Join(",", d.Value.Select(el => el ? 1 : 0))));
-            File.WriteAllText(_tableName, "{" + string.Join(",", jsonTable) + "}");*/
         }
     }
 }
