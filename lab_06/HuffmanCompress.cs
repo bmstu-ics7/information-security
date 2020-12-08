@@ -61,13 +61,15 @@ namespace CompressHuffman
             List<byte> zip = new List<byte>();
             foreach (byte sb in bytes)
             {
+                List<bool> kek = new List<bool>();
                 foreach (byte b in table[sb])
                 {
+                    kek.Add(b == 1);
                     zip.Add(b);
                 }
             }
 
-            byte[] zipWrite = new byte[zip.Count / 8 + 1];
+            List<byte> zipWrite = new List<byte>();
             for (int i = 0; i < zip.Count; i += 8)
             {
                 byte b = 0;
@@ -80,17 +82,17 @@ namespace CompressHuffman
                     else
                         b += (byte)0;
                 }
-                zipWrite[i / 8] = b;
+                zipWrite.Add(b);
             }
 
-            File.WriteAllBytes(outFile, zipWrite);
+            File.WriteAllBytes(outFile, zipWrite.ToArray());
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
             using (StreamWriter sw = new StreamWriter(_tableName))
             {
-                serializer.Serialize(sw, tree);
+                serializer.Serialize(sw, tree.H);
             }
         }
     }

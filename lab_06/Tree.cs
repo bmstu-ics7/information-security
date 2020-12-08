@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace CompressHuffman
@@ -26,15 +25,15 @@ namespace CompressHuffman
                 if (L != null)
                 {
                     code.Add(0);
-                    L.GetCode(table, code);
-                    code.Remove(code[code.Count - 1]);
+                    L.GetCode(table, new List<byte>(code));
+                    code.RemoveAt(code.Count - 1);
                 }
 
                 if (R != null)
                 {
                     code.Add(1);
-                    R.GetCode(table, code);
-                    code.Remove(code[code.Count - 1]);
+                    R.GetCode(table, new List<byte>(code));
+                    code.RemoveAt(code.Count - 1);
                 }
             }
         }
